@@ -1,5 +1,5 @@
 title = "Rioni's devlog"
-baseURL = 'http://dev.rioni.es'
+baseURL = 'http://www.dev.rioni.es'
 
 # This is what goes in <html lang="">
 languageCode = 'en-us'

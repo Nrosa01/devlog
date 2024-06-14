@@ -14,7 +14,7 @@ Wait, Are you stil reading here? This is literally me saying things about myself
 I don't have much more to say to be honest, so I'll just link my art site. Yes this is a programming blog but it's my blog :)
 
 <a href="https://www.rioni.es">
-    <img src="https://cdn.discordapp.com/attachments/808381067303190554/1180966674950799491/image.png" alt="rioni art site">
+    <img src="https://raw.githubusercontent.com/Nrosa01/svelte-gallery/main/public/site/preview_twitter.jpg" alt="rioni art site">
 </a>
 
 

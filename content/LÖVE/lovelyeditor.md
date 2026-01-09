@@ -15,10 +15,9 @@ Current features:
 - Theme system. Make the editor yours!
 - Dev: Modular system, new tools can be easily added even without accesing the source code. Just drag your Lua modules into the windows and they get loaded and saved in the global editor data folder.
 
-Warning:
-
-Some of the features listed are not fully stable, the editor needs a lot of work and thus it's not public yet. It won't be until the entity and general asset system is implemented. This project is currently on hiatus.
+> [!Warning] Warning!
+> Some of the features listed are not fully stable, the editor needs a lot of work and thus it's not public yet. It won't be until the entity and general asset system is implemented. This project is currently on hiatus.
 
 Video demo:
 
-![](LÖVE/assets/lovely_editor_demo.mp4)
+![loop](LÖVE/assets/lovely_editor_demo.mp4)

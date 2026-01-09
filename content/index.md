@@ -27,8 +27,8 @@ On the creative side I enjoy drawing, 3d modeling, writing... Although I mainly 
   - Simple Test system for simple devs
 - [LOVEly Bullets](https://github.com/Nrosa01/LOVElyBullets)
   - Love2D Bullet/Particle System, performant, hackable, flexible and easy
-- [Darkrit Engine](https://github.com/Nrosa01/darkrit_engine)
-  - LÖVE based game engine heavily inspired by Unity. WIP. I have to update it since my local repository has a lot more of stuff than what it is in the repo at the moment.
+- [Darkrit Engine](LÖVE/darkrit_engine.md)
+  - LÖVE based game engine heavily inspired by Unity. [Source here.](https://github.com/Nrosa01/darkrit_engine)
 - [LOVEly Editor](LÖVE/lovelyeditor.md)
   - IMGUI + LÖVE simple tilemap editor inspired by Tiled. Still WIP.
 - [Craftlove](https://github.com/Nrosa01/craftlove)

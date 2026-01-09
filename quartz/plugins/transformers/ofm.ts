@@ -398,9 +398,20 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
           return (tree: Root, _file) => {
             visit(tree, "image", (node, index, parent) => {
               if (parent && index != undefined && videoExtensionRegex.test(node.url)) {
+                const alt = (node.alt || '').toLowerCase();
+                const shouldLoop = alt.includes("loop");
+                const shouldAutoplay = alt.includes("autoplay") || shouldLoop;
+                const shouldMute = alt.includes("mute") || shouldLoop;
+
+                const attrs = ['controls'];
+                if (shouldLoop) attrs.push('loop');
+                if (shouldAutoplay) attrs.push('autoplay');
+                if (shouldMute) attrs.push('muted');
+                attrs.push('playsinline');
+
                 const newNode: Html = {
                   type: "html",
-                  value: `<video controls src="${node.url}"></video>`,
+                  value: `<video ${attrs.join(' ')} src="${node.url}"></video>`,
                 }
 
                 parent.children.splice(index, 1, newNode)

@@ -26,6 +26,8 @@ On the creative side I enjoy drawing, 3d modeling, writing... Although I mainly 
 - [Darkrit Engine](https://github.com/Nrosa01/darkrit_engine)
   - LÖVE based game engine. WIP. I have to update it since my local repository has a lot more of stuff than what is there at the moment.
 
+<!-- Lovely level editor. Craftlove -->
+
 ## Game Projects
 - [Lua Sand Engine](https://github.com/Nrosa01/lua-sand-engine)
   - Scriptable falling sand simulation using the LÖVE engine.
@@ -37,10 +39,13 @@ On the creative side I enjoy drawing, 3d modeling, writing... Although I mainly 
   - Responsive Vue + Tailwind frontend. [Try it](https://nrosa01.github.io/pixel-creator/), it's cool, I'm proud of it
   - Inspired by [Sandspiel](https://studio.sandspiel.club)
 
+<!-- Golf royale, Birdimensional -->
+
 <!-- ## Web projects
 - El de ver jsons, mi web de arte, la web de PMD -->
 
-## Other Projects
+<!-- ## Other Projects -->
+<!-- OdinLox  -->
 
 ## Experience
 

@@ -52,7 +52,7 @@ On the creative side I enjoy drawing, 3d modeling, writing... Although I mainly 
   - A top-down game in which you have to save the Pom-Poms from themselves and other hazards like scissors and cats! Tie them up tight and take them to their box to save them! Made by the Fire Otters team for the GMTK Game Jam 2025.
 - [Golf Royale](https://github.com/Nrosa01/Golf-Royale)
   - Simple minigolf online multiplayer game developed as a final project for college subject. It uses POSIX sockets so it doesn't compile con Windows.
-- [Birdimensional](tags/birdimensional)
+- [Birdimensional](devlog/birdimensional)
   - Unfinished Unity game platformer featuring dimension overlapping... and a bird!
 
 ## Web Projects

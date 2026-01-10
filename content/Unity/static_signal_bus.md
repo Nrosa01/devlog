@@ -2,6 +2,7 @@
 title: Simple static signal bus
 draft: false
 description: In this post, a simple and powerful type-safe signal bus system is presented. Usage and tips are included.
+tags: ["tutorial", "unity"]
 ---
 
 # Introduction

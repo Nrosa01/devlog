@@ -1,5 +1,6 @@
 ---
 title: Darkrit Engine
+tags: ["showcase"]
 ---
 
 A 2D game engine built on top of LÖVE (Love2D) framework with Lua. Heavily inspired by Unity but adding unique ideas. The engine is kinda rough, it has a lot of features, you can perfectly make a game with sounds, effects etc. But still lacks basics like material support that you have to handle on your own. [Source code here](https://github.com/Nrosa01/darkrit_engine)

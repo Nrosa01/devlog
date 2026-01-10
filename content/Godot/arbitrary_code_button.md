@@ -1,5 +1,6 @@
 ---
 title: Single-Script Dynamic Code Runner
+tags: ["tutorial", "godot"]
 ---
 
 # The issue to solve

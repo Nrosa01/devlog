@@ -1,5 +1,6 @@
 ---
 title: LÖVEly Editor
+tags: ["showcase"]
 ---
 
 IMGUI + LÖVE simple tilemap editor inspired by Tiled. Still WIP.

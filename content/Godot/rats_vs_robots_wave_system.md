@@ -65,7 +65,7 @@ extends Resource
 
 But that's not good. I had something similar and...
 
-![](godot/assets/godot_resource_view_issue_1.png)
+![](Godot/assets/godot_resource_view_issue_1.png)
 
 Yikes! That's unreadable! This is the hard truth with Godot's resources. They're not that good when you work with arrays of them. And since we don't have serializable classes like in Unity, we can't do much more. And it's not only that is ugly to see! It's slow to modify! Let's say you want to add a new entry. You have to click the add button, that creates an empty new resource. So you have to either click on it and then *quick load* or *new*, click again to *unfold* the view and see the data... You see where I'm going. And I don't think I have to say anything about how uncomfortable is to manage. Do you want to see all the events at the same time? Unfold them one by one. Are they taking too much space? Fold the whole array or each element one by one. No thanks.
 
@@ -204,7 +204,7 @@ That function will make more sense later, just wait.
 
 Right now we got this:
 
-![](godot/assets/wave_data_1.png)
+![](Godot/assets/wave_data_1.png)
 
 
 ## Syntaxt highlighting
@@ -321,7 +321,7 @@ func get_all_character_names(wave) -> Array:
 
 And that like that, we have our autocomplete ready! See it in action:
 
-![autoplay](godot/assets/autocomplete_1.mp4)
+![autoplay](Godot/assets/autocomplete_1.mp4)
 
 I have to admit that this took a while more than I'd had like. But it's cool to see it working!
 
@@ -393,7 +393,7 @@ And with that, everything that is left is to open the resource. In my case that 
 
 That code is self explanatory so... Video time!
 
-![](godot/assets/click_to_go.mp4)
+![](Godot/assets/click_to_go.mp4)
 
 ## Compiler
 
@@ -560,7 +560,7 @@ Finally, if the command is unknown, we ignore the line. And once all lines are p
 
 In these kind of games, it's always important to show the player what he will have to deal with. For example, SvZ 2 does it like this:
 
-![](godot/assets/svz2_wave_screen.png)
+![](Godot/assets/svz2_wave_screen.png)
 
 It even tells you which enemies are new! I'm not dwelling into that, but I can tell you how to get the characters for preview:
 
@@ -594,7 +594,7 @@ spawn "Ally test 1"
 
 I get this preview screen:
 
-![](godot/assets/rvsr_wave_preview.png)
+![](Godot/assets/rvsr_wave_preview.png)
 
 Sure it's not as good looking—for now—but it works!
 
@@ -644,7 +644,7 @@ This is all. This is the interpreter, the `WavePlayer`. It compiles the data and
 
 The final result is:
 
-![](godot/assets/wave_demo_1.mp4)
+![](Godot/assets/wave_demo_1.mp4)
 
 Cool right?
 

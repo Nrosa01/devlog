@@ -6,15 +6,18 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [
-    Component.Comments({
-      provider: 'giscus',
-      options: {
-        repo: 'nrosa01/devlog',
-        repoId: 'R_kgDOQ2LsXg',
-        category: 'Announcements',
-        categoryId: 'DIC_kwDOQ2LsXs4C082z',
-        lang: 'en',
-      }
+    Component.ConditionalRender({
+      component: Component.Comments({
+        provider: 'giscus',
+        options: {
+          repo: 'nrosa01/devlog',
+          repoId: 'R_kgDOQ2LsXg',
+          category: 'Announcements',
+          categoryId: 'DIC_kwDOQ2LsXs4C082z',
+          lang: 'en',
+        }
+      }),
+      condition: (page) => page.fileData.slug !== "index" && !page.fileData.slug?.endsWith("index")
     }),
   ],
   footer: Component.Footer({

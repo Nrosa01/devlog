@@ -442,7 +442,7 @@ var time_max: float = -1.0
 var repeat_times := 0
 ```
 
-I store a reference to the database there so I can then get the resource. You could store the resource directly and you wouldn't need that, but that would make Godot load the resource instantly when you access your WaveData. Imagina you have a WaveData that has 80 events, and 50 of them are entities, having at least 10 different entities. That would mean that you're loading in one frame 10 entities which can cause lag spikes. Or at least that's what I feared since that `CharacterData` resource has a `PackedScene` prefab. 
+I store a reference to the database there so I can then get the resource. You could store the resource directly and you wouldn't need that, but that would make Godot load the resource instantly when you access your WaveData. Imagine you have a WaveData that has 80 events, and 50 of them are entities, having at least 10 different entities. That would mean that you're loading in one frame 10 entities which can cause lag spikes. Or at least that's what I feared since that `CharacterData` resource has a `PackedScene` prefab. 
 
 > [!Warning] Warning
 > I'm not 100% sure if this happens, I haven't tested it yet. But I prefer to manually load my resources when possible. And for that same reason I avoid [preload](https://theduriel.github.io/Godot/Do-not-use---Preload) as much as possible.
@@ -526,7 +526,7 @@ You could even make the func static, put it into a utilities script and use it e
 
 Finally, the interesting part of the compiler:
 
-```
+```gdscript
 			"repeat":
 				var repeat_times := int(tokens[1]) # You ensure here that tokens[1] exists before accesing
 

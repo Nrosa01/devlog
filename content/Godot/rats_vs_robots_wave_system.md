@@ -16,7 +16,7 @@ Check the following video for more context:
 
 In my case, I'm building a spiritual successor called `Rats vs Robots`. I already have a basic AI system using `behavior trees` because I find them easier and more flexible than state machines. But I was lacking something important, the `wave system`.
 
-The original game way of doing it was quite arcaic but, effective. It just had a txt for it that follows like this:
+The original game way of doing it was quite archaic but, effective. It just had a txt for it that follows like this:
 
 Extract from [Assets/Resources/registry/waves/Wave008.txt](https://github.com/Decomp-And-Recomp/Samurai-Vs-Zombies/blob/main/Assets/Resources/registry/waves/Wave008.txt)
 
@@ -77,7 +77,7 @@ Godot idiomatic and easy way doesn't work for us. What can we do? Well, let's ju
 
 There are many ways we could do this, I've tried many. None is perfect, some are better but complexity is not worth the effort. The system must meet 5 rules:
 
-- It must allow to see a big amount of events in the less space possible.
+- It must allow to see a big amount of events in the least amount of space possible.
 - It must be quick to edit. Adding events should take the less amount of clicks possible.
 - It must be easy to extend. We might need more commands in the future.
 - It must not be error-prone.
@@ -120,7 +120,7 @@ I'm not going to formarly define the grammar because of how simple it is, but a 
 - repeat <times> \[...\]
 - end \[...\]
 
-\[...\] means an arbitrary number of tokens, optional. We only care about the first 3 tokens, whatever comes next is not our trouble. For this to work, the language will enforce a constraint: Only one command per line. And to simplify it even more, we are not accounting for brackets nor whitespace, everything is keyword based, kinf of like lua.
+\[...\] means an arbitrary number of tokens, optional. We only care about the first 3 tokens, whatever comes next is not our trouble. For this to work, the language will enforce a constraint: Only one command per line. And to simplify it even more, we are not accounting for brackets nor whitespace, everything is keyword based, kind of like lua.
 
 A example script in this language would be:
 

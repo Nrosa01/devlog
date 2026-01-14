@@ -650,4 +650,4 @@ Cool right?
 
 This post might have been a longer than expected, but if you read thoroughly you will realize how simple it is. Given this is my first serious and long post I wanted to make sure it's easy to understand.
 
-If you have feedback to give, please [contact me](index.md#find-me")
+If you have feedback to give, please [contact me](index.md#find-me") or comment below, a giscus box shuold appear.

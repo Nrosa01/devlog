@@ -1,7 +1,7 @@
 ---
 title: The Rats vs Robots wave system
 description: A mini devlog, tutorial-ish about building a custom code inspector in Godot to easily author enemy waves.
-date: 2025-01-13
+date: 2026-01-13
 draft: false
 tags: ["godot", "rats_vs_robots"]
 ---

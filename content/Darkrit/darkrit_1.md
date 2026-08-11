@@ -25,3 +25,9 @@ Today was laying out the basics, I got the collision compute function and the re
 That said, I'm happy with how I'm planning this implementation. I will try a handle based approach so I don't need to move `RectangleF` structs here and there. This also allows me to keep everything as structs so iteration should be faster. I think this is what OOP haters call DOD, if not, please forgive me.
 
 Next day I'll continue working on this system. I expect it to take me 10 days, which is a lot but it will be a nice collision system. And what I learn here will be useful for the `Tilemap` system.
+
+# Day 2
+
+I got stuck implementing AABB Swept, I ended up using [Falconers' implementation](https://github.com/Falconerd/engine-from-scratch/blob/rec/src/engine/physics/physics.c). The article I linked to yesterday was wrong on some aspects and its implementation was a bit more complex. I find this one easier to understand. Still, I had to admit that I spent hours just drawing on paper and manually executing cases to deeply understand how this works. It's really simple once you get but man I'm rusty...
+
+I also build the handle map, but I haven't written tests and chances are there are bugs. Tomorrow I plan on building upon that and starting the spatial hashing

@@ -1,7 +1,6 @@
 ---
 title: Darkrit devlog week 1
 tags: ["c#", "darkrit", "monogame"]
-draft: true
 ---
 
 I decided to split posts in week as daily progress will be slow and there won't be much to tell. That said, let's start:
@@ -31,3 +30,11 @@ Next day I'll continue working on this system. I expect it to take me 10 days, w
 I got stuck implementing AABB Swept, I ended up using [Falconers' implementation](https://github.com/Falconerd/engine-from-scratch/blob/rec/src/engine/physics/physics.c). The article I linked to yesterday was wrong on some aspects and its implementation was a bit more complex. I find this one easier to understand. Still, I had to admit that I spent hours just drawing on paper and manually executing cases to deeply understand how this works. It's really simple once you get but man I'm rusty...
 
 I also build the handle map, but I haven't written tests and chances are there are bugs. Tomorrow I plan on building upon that and starting the spatial hashing
+
+# Day 3
+
+I started the implemenation of a GrowingArray for HandleBased array. I also started the World implementation. More on this other day
+
+# Day 4
+
+I got the basics of the physics system working. I wrote a dedicated post for it, [check here](../Devlog/creating_a_2d_collision_system_1.md)

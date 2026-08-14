@@ -38,3 +38,9 @@ I started the implemenation of a GrowingArray for HandleBased array. I also star
 # Day 4
 
 I got the basics of the physics system working. I wrote a dedicated post for it, [check here](../Devlog/creating_a_2d_collision_system_1.md)
+
+# Day 5
+
+I didn't do much. I changed the physics API to pass `Vector2 motion` instead of `Vector2 targetPosition` and I started to draft the SEC system. I won't do pure SEC, when I mean SEC I mean Scene-Entity-Component. A model really similar to the one Unity uses. Godot node system is interesting too, but it's harder to implement in a performant way.
+
+I intend to build an OOP like system, that under the hood just runs ECS queries so it's efficient. I might not be able too. We'll know soon. This will likely take weeks.

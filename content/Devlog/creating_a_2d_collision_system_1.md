@@ -1,5 +1,5 @@
 ---
-title: Creating a 2D Collision System - Parte 1
+title: Creating a 2D Collision System - Part 1
 tags: ["c#", "physics", "monogame"]
 draft: false
 ---

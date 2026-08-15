@@ -41,18 +41,6 @@ I got the basics of the physics system working. I wrote a dedicated post for it,
 
 # Day 5
 
-I downloaded Palworld. Then, I worked on the design of my Entity System. Not an ECS tho. I'm used to Godot and Unity. I know that CPU wise it's not the most performant system, BUT, I'm just too experienced at it, sunk cost. I've tried ECS and it's interesting, for particle systems and similar stuff I find it interesting. But for a game generic system I don't. I also considered [this](https://youtu.be/jjEsB611kxs) model. I really like it conceptually, it's really flexible and for bigger projects I think it's better than what I'm planning to do. But implementing it correctly it's hard even when I have the source code. And apart from that, I would have to build certain tooling to make it comfortable. 
+I didn't do much. I changed the physics API to pass `Vector2 motion` instead of `Vector2 targetPosition` and I started to draft the SEC system. I won't do pure SEC, when I mean SEC I mean Scene-Entity-Component. A model really similar to the one Unity uses. Godot node system is interesting too, but it's harder to implement in a performant way.
 
-Before writing the system, it's important to ask a question: Why do I need it? Answer: I could go with fat struct, but I could also write an entity system, serialiation built-in, and just have entities with a single component that acts as fat struct with minimal overhead. I won't do that anyways, but I could if I wanted to.
-
-Now. What do I want for my system?
-- Struct and handle based. No reference issues
-- Entities are contiguous in memory
-- Components are contiguous structs in memory, one array per component type
-- Optional component update paralellization
-- Components that don't implement Update, shouldn't need to update
-- Familiar API, GetComponent, AddComponent, QueueFree... Inspired by Unity and Godot
-
-# Day 6
-
-Yesterday in bed, I had a revelation on how to approach the whole system. It didn't come out as nice as I imagined it, ergonomics aren't as good as I like but I'm happy I could get this done within 2 days. Same as with the physics system, I wrote a [dedicated post for it](../Devlog/creating_a_entity_system.md).
+I intend to build an OOP like system, that under the hood just runs ECS queries so it's efficient. I might not be able too. We'll know soon. This will likely take weeks.

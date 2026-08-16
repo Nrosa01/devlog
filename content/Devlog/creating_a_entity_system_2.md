@@ -1,7 +1,7 @@
 ---
 title: Creating an Entity System - Part 2
 tags: ["c#", "monogame"]
-draft: true
+draft: false
 ---
 
 This is the second part of a series, I recommend you reading [the first one first](../Devlog/creating_a_entity_system_1.md).
@@ -31,9 +31,9 @@ Another option is making extension methods like the last time and also adding a 
 
 I've simplified the problem since I've already fixed it and I don't remember when I was thinking 8 hours ago.
 
-There is a simple fix for all my problems: Source Generators and public/private API segregation.
+There is a simple fix for all my problems: Source Generators and public/private API segregation. But before going into that, I will show an example and another problem that arises when doing something basic.
 
-First of all, I will keep the componentMetadata. But that will only store private data, the component won't be able to access it, the ComponentStore will manage it. One example of this is `Initialized` field. When an entitiy is added, is not initialized, componentes initialize at the end of the next frame. My components aren't deferred, when you call `AddComponent`, it gets added to the array. Why? Remember that it's an array of struct that returns a handle. You usually want to:
+First of all, I will keep the componentMetadata. But that will only store private data, the component won't be able to access it, the ComponentStore will manage it. One example of this is `Initialized` field. When an entitiy is added, is not initialized, components initialize at the end of the next frame. My components aren't deferred, when you call `AddComponent`, it gets added to the array. Why? Remember that it's an array of struct that returns a handle. You usually want to:
 
 ```csharp
 var entityHandle = world.CreateEntity();
@@ -41,6 +41,7 @@ ref var entity = world.GetEntity(entityHandle);
 var componentHandle = entity.AddComponent<PlayerController>()
 ref var component = entity.GetComponent<PlayerController>()
 component.speed = 10;
+// Note, there will be an api that returns the handle as out parameter Handle<> and a ref to the object, but I haven't done that yet
 ```
 
 For this to work, I need the component to exist immediately. If this were an more OOP system, I could just store the class component instance and return it, given it's a reference, it would work even when I move it to the other array. This is harder with my system, so I have to add the component immediately. Given everything uses handles, even if the array resizes during the iteration, it will work properly.
@@ -56,3 +57,151 @@ I could do the first and there won't be any issues thanks to the immediate mode.
 And yes, this means that when you remove a component or an entity, the array size doesn't change, you still iterate the same amount of entities. And given I'm using handles, I can't reorder the entities, as that would invalidate the handles. This can be an issue under certain situations but not for the way I'm using this system, I accept this issue.
 
 That settles me into the deferred options. I need a flag that must not be exposed in the `Component` interface
+
+-------------------------------
+
+Back to where we were, there are 2 main problems:
+- I don't want to implement the interface properties for every component
+- I need some component metadata that is not visible outside the library
+
+For the second one, the answer is easy. Private data goes into the `ComponentMetadata` array. The `ComponentStorage<T>` uses it as needed. The `Component` struct only has public data.
+
+For that last problem and the first one in our list, the answer is: Code generation.
+
+# Source generation
+
+I can make a source generator that implements the auto properties, that way I don't have to do so. And what is more, do you remember the `Updateable` attribute and the gang?
+
+```csharp
+[Renderable, Updateable]
+public struct SpriteComponent : IComponent
+{
+    public EntityRegistry World { get; set; }
+    public Handle<Entity> EntityHandle { get; set; }
+
+    public bool Enabled { get; set; }
+
+    public AnimatedSprite Sprite;
+
+    public void Start()
+    {
+        Sprite.Scale = Vector2.One * 4;
+    }
+
+    public void FixedUpdate(GameTime gameTime) => Sprite.Update(gameTime);
+
+    public void Draw(GameTime gameTime) => Sprite.Draw(Core.SpriteBatch, this.Entity.Position);
+}
+```
+
+With source code generation, I can also automatize that. I can even add fields that are ``[assembly: InternalsVisibleTo("Darkrit")]`` so the struct have them, allowing me to not need that `ComponentMetadata` array. But to keep things simple I'm still going with it.
+
+This is not a tutorial about code generation, so I will just log here what I did and why. If you need to know about source generation, the discord C# server is a nice play to ask questions. Or reading [roslyn doc](https://github.com/dotnet/roslyn/blob/main/docs/features/incremental-generators.cookbook.md)
+
+Now, I will show the generated code, then I'll explain it:
+
+```csharp showLineNumbers{23}
+        context.RegisterSourceOutput(input, static (spc, data) =>
+        {
+            var component = data.Left;
+            var iComponent = data.Right;
+
+            var namespaceName = component.ContainingNamespace.ToDisplayString();
+            var typeName = component.Name;
+
+            var source = $$"""
+                using Microsoft.Xna.Framework;
+                using System.Runtime.InteropServices;
+                using global::Darkrit.EntityModel;
+                using global::Darkrit.Base;
+
+                namespace {{namespaceName}};
+
+                {{GenerateAttributes(component, iComponent)}}
+                [StructLayout(LayoutKind.Auto)]
+                public partial struct {{typeName}} : IComponent
+                {
+                    public ref Entity Entity => ref World.GetEntity(EntityHandle); 
+
+                    public EntityRegistry World { get; set; }
+                    public Handle<Entity> EntityHandle { get; set; }
+                    public bool Enabled { get; set; }
+
+                    {{GenerateMethods(component, iComponent)}}
+                }
+                """;
+
+            spc.AddSource($"{typeName}.g.cs", source);
+        });
+```
+
+I generate a partial struct that already implement IComponent. I use `[StructLayout(LayoutKind.Auto)]` so the compiler optimizes the layout, as using partial structs results in not having control about the padding and offset of the fields.
+
+Now, `{{GenerateAttributes(component, iComponent)}}` generates `[Updateable]` and the rest of attributes automatically based on whether I implemented those callbacks. Let's say I added the `Update` function to my component, then it gets `[Updateable]`. This makes the system more robuts as previously you could easily forget one attribute. And they are opt-in by design, nothing executes unless the attribute is defined.
+
+Then `{{GenerateMethods(component, iComponent)}}`. This is similar to the previous one, but it generates method implementations. I have been told and proved that doing
+
+```csharp
+public interface MyInterface
+{
+  public void MyFunction() {}
+}
+```
+
+Boxes the struct, as `this` would be `MyInterface` and not the type that implements it.
+
+To avoid the boxing, there are no default implementations in my interface now. And I didn't want to write empty functions in my components, so I just used the generator for that too. Totally needless, but it's the first time I'm using a Source Generator in C# so I wanted to push ergonomics to the limit. If I add more functions to the interface in the future, like OnEnabled, I won't need to modify my components nor the generator, it automatically picks unimplemented methods from the interfaces and implements them. Otherwise, modifying my API would require me to implement methods on all of struct. Sure you don't usually change a system API mid development, but this system itself is developing so I have to care about these details.
+
+# Example
+
+With all of that in place, let me show you how this looks now.
+
+```csharp
+// What I write
+[Component]
+public partial struct SpriteComponent
+{
+    public AnimatedSprite Sprite;
+
+    public void Start()
+    {
+        Sprite.Scale = Vector2.One * 4;
+    }
+
+    public void FixedUpdate(GameTime gameTime) => Sprite.Update(gameTime);
+
+    public void Draw(GameTime gameTime) => Sprite.Draw(Core.SpriteBatch, Entity.Position);
+}
+
+// What it gets generated
+using Microsoft.Xna.Framework;
+using System.Runtime.InteropServices;
+using global::Darkrit.EntityModel;
+using global::Darkrit.Base;
+
+namespace DarkritGame.Scenes;
+
+[FixedUpdateable]
+[Drawable]
+[StructLayout(LayoutKind.Auto)]
+public partial struct SpriteComponent : IComponent
+{
+    public ref Entity Entity => ref World.GetEntity(EntityHandle); 
+
+    public EntityRegistry World { get; set; }
+    public Handle<Entity> EntityHandle { get; set; }
+    public bool Enabled { get; set; }
+
+    public void Update(GameTime gameTime) { }
+}
+```
+
+Now I don't have to bother with properties, I just write what I need and it will just work.
+
+# End
+
+I still have to figure out relations, but I'm happy with this system, I can already build games with it and I know that I can just write components and everything will work really well under the hood thanks to the component storage.
+
+There is something else I haven't written today, I've optimized the `Entity.GetComponent` and some other stuff, but I will have to write about that tomorrow as I'm running of awake time today.
+
+Until next time!

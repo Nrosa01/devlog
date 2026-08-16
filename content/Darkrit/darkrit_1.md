@@ -47,4 +47,10 @@ I intend to build an OOP like system, that under the hood just runs ECS queries 
 
 # Day 6
 
-Yesterday in bed, I had a revelation on how to approach the whole system. It didn't come out as nice as I imagined it, ergonomics aren't as good as I like but I'm happy I could get this done within 2 days. Same as with the physics system, I wrote a [dedicated post for it](../Devlog/creating_a_entity_system.md).
+Yesterday in bed, I had a revelation on how to approach the whole system. It didn't come out as nice as I imagined it, ergonomics aren't as good as I like but I'm happy I could get this done within 2 days. Same as with the physics system, I wrote a [dedicated post for it](../Devlog/creating_a_entity_system_1.md).
+
+# Day 7
+
+I continued working on the system and it's much better now. As usual, I wrote a [dedicated post for it](../Devlog/creating_a_entity_system_2.md).
+
+I promise you that not all devlogs will just redirect to another post, but these last days have been wild.

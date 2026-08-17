@@ -2,6 +2,7 @@
 title: Creating a 2D Collision System - Part 1
 tags: ["c#", "physics", "monogame"]
 draft: false
+date: 2026-08-13
 ---
 
 # Motivation

@@ -1,7 +1,8 @@
 ---
 title: Creating an Entity System - Part 2
-tags: ["c#", "monogame"]
+tags: ["c#", "monogame", "darkrit-entity-model"]
 draft: false
+date: 2026-08-16
 ---
 
 This is the second part of a series, I recommend you reading [the first one first](../Devlog/creating_a_entity_system_1.md).
@@ -12,7 +13,7 @@ If you remember from last time, `Component`s are struct that implement `ICompone
 
 Most of this data, is `Component Metadata`, which means that I can just have something like:
 
-```csharp
+```csharp {4}
 public class ComponentStore<T>(int initialCapacity) : IComponentStore where T : struct, IComponent
 {
     private readonly HandleMapGrowing<T> _components = new(initialCapacity);
@@ -205,3 +206,7 @@ I still have to figure out relations, but I'm happy with this system, I can alre
 There is something else I haven't written today, I've optimized the `Entity.GetComponent` and some other stuff, but I will have to write about that tomorrow as I'm running of awake time today.
 
 Until next time!
+
+[> Part 1](../Devlog/creating_a_entity_system_1.md).
+
+[> Part 3](../Devlog/creating_a_entity_system_2.md).

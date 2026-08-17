@@ -1,7 +1,8 @@
 ---
 title: Creating an Entity System - Part 1
-tags: ["c#", "monogame"]
+tags: ["c#", "monogame", "darkrit-entity-model"]
 draft: false
+date: 2026-08-15
 ---
 
 # Motivation
@@ -493,3 +494,6 @@ Whatever the case may be I'm pretty happy and I can continue to build upon it.
 You might have wondered... How are you planning on building entity relations and update order dependency? Like, making an entity child of another, so parent components execute first than the children so the children gets the transform updated that frame. Answer is I don't know. I don't even know if I need it. I'd like to have hiearchies as they're useful for certain stuff, but for most 2D games I can live without it. I'll try to figure that out on the next version. Unlike this one that only took me a one day and a half, relations might take a lot more. I might not be able to implement them. If you're curious about that, be sure to check the IRS feed to not miss any post! 👀
 
 Until next time!
+
+
+[> Part 2](../Devlog/creating_a_entity_system_2.md).

@@ -1,7 +1,7 @@
 ---
 title: Darkrit devlog week 2
 tags: ["c#", "darkrit", "monogame"]
-draft: true
+draft: false
 ---
 
 # Day 2

@@ -41,3 +41,83 @@ ref Entity entity = ref world.GetEntity(entityHandle);
 ```
 
 I know I could make something like  `public ref Entity CreateEntity(out Handle<Entity> entityHandle){:csharp}`. But I don't like the inconsistency of the return type being that instead of the handle. Maybe in the future I end up allowing it if I get bored of writing those two lines. Or maybe, given the `Entity` has a handle to itself public, I can just return the Entity directly and you can access the handle if needed. I'll have to think about that as I don't want to abstract the handles, from a library perspective I want my hypothetic users to know about handles.
+
+# Day 4
+
+Alright so lots of things happened but I don't have time for longer posts. I managed to get the hierarchical transform update. It's working right, but the performance when there are structural changes (adding or removing components) is bad so I decided to not use it for now. I liked the idea because I'm used to Godot nodes updating in order, but I can also live with a Unity system that updates randomly but more efficiently. I left the implementation and I can toggle it with a single bool. I also had to add `internal Handle<Entity> _lastChild` to support inserting at the end without having to loop through all children.
+
+I also had to deal with loops, that was a bit of a headache. When I say loops I say trying to do stuff like adding A as child of B and B as child of A. That's a simple loop but there are other ones. Nothing that crying and debugging on paper can't solve.
+
+# Day 5
+
+I implemented physics interpolation:
+
+```csharp
+    private ulong _lastWriteTick;
+    private ulong _renderFrame;
+
+    private Transform2D _previous;
+    private Transform2D _current;
+    private Transform2D _renderTransform;
+
+    private void EnsureCurrentTick()
+    {
+        if (_lastWriteTick != World.Tick)
+        {
+            _previous = _current;
+            _lastWriteTick = World.Tick;
+        }
+    }
+
+    public Vector2 Position
+    {
+        get
+        {
+            if (World.IsDrawing)
+                return RenderTransform.Position;
+
+            return _current.Position;
+        }
+
+        set
+        {
+            EnsureCurrentTick();
+            _current.Position = value;
+        }
+    }
+
+    public void Teleport(Vector2 position)
+    {
+        _current.Position = position;
+        _previous.Position = position;
+        _renderTransform.Position = position;
+    }
+
+    public void ResetInterpolation()
+    {
+        _previous = _current;
+        _renderFrame = ulong.MaxValue;
+    }
+
+    private Transform2D RenderTransform
+    {
+        get
+        {
+            if (_renderFrame != World.RenderFrame)
+            {
+                _renderTransform = Interpolate(_previous, _current, World.FixedUpdateAlpha);
+                _renderFrame = World.RenderFrame;
+            }
+
+            return _renderTransform;
+        }
+    }
+```
+
+I just made created a property `Tick` that I increment at the beggining of the FixedUpdate. Then I use that to compute the interpolated Render Transform. I also track what part of the Game Loop I'm in so I can hide the RenderTransform and Drawable Componentes can just use Entity.Position or Entity.Transform. I love that the physics interpolation system is abstract to the component. I can just take it away if needed.
+
+Why am I adding this? Well, part of premature optimization and part because it's fun. I want to be able to lower the physics tick while still having smooth render. The price to pay is slower runtime, and not because of the check, I profiled and the issue is cache thrashing caused by the Entity struct being bigger. I tried adding a couple of matrixes and it got x3 slower. So I need to be REALLY careful about how much data I add. I also added a `int flags` and `StringID name` that it's just an int. StringID is a pointer to a string, a simple string interning for entities.
+
+I also changed the API. Now CreateEntity returns ref Entity. Why? Because often when you get an entity you later want its ref. Given the entity has a handle to itself you can still easily check it. Entities doesn't have a self handle yet, but they will probably have it. Let's say you want to destroy a component from within itself. You can't now, the component doesn't have a reference to itself. I tested performance when adding the Handle and it has a minimal but noticeable impact of around 0.005ms. So as long as I don't need that I won't add it. Perfomrnace right now is at 0.17-0.19ms at 10k entities. The issue is that this is only for entities with 2 components and little data. When I get more data it might be x10 worse. I will still be pretty good performance, just not crazy like in ECS.
+
+Next day I will add OnEnable/OnDisable, start physics implemnentation and that will be the thing. Serialization is a monster that I'll tackle later, first I want to play with this system and see what I can do with it.

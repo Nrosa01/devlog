@@ -121,3 +121,17 @@ Why am I adding this? Well, part of premature optimization and part because it's
 I also changed the API. Now CreateEntity returns ref Entity. Why? Because often when you get an entity you later want its ref. Given the entity has a handle to itself you can still easily check it. Entities doesn't have a self handle yet, but they will probably have it. Let's say you want to destroy a component from within itself. You can't now, the component doesn't have a reference to itself. I tested performance when adding the Handle and it has a minimal but noticeable impact of around 0.005ms. So as long as I don't need that I won't add it. Perfomrnace right now is at 0.17-0.19ms at 10k entities. The issue is that this is only for entities with 2 components and little data. When I get more data it might be x10 worse. I will still be pretty good performance, just not crazy like in ECS.
 
 Next day I will add OnEnable/OnDisable, start physics implemnentation and that will be the thing. Serialization is a monster that I'll tackle later, first I want to play with this system and see what I can do with it.
+
+# Day 6
+
+I added LateUpdate, OnEnable/Disable, changed the API again... One big change was that now, `HandleMapGrowing<T>` receives a IHandle, internally uses T instead of ``HandleItem<T>``. Why? Because I found out silly having the handle in the handle item and also in the entity, the component would eventually need its own handle. I realized that the design forces that, and given the handle is needed anyways, it doesn't incur into more space costs. The issue is encapsulation, now, you can modify the handle that's used to check against in the structure, and making it readonly is also troublesome. So to not waste more memory in handles, I decided to pay this price and go with it. That also made api more comfortable to use. I also added A TON of documentation to the system now that is more stable.
+
+# Day 7
+
+I didn't have much time today, I improved the editor debug render to display the hierachy using the ImGui clipper. I also added a basic component renderer for the inspector. Now I have a Unity-like inspector, including ``[SerializeField]`` and `[ShowInInspector]` and such. It's just fighting ImGui to make it look good and responsive. I'm quite happy with it, but these last days I'm running of time to write better posts. Once I get more things in place I'll try to write more.
+
+I also ported Miisan ImGui gizmos to C#: https://github.com/Nrosa01/ImGizmo2D/
+
+The next step is adding the my Boxy2D physics to the entity system. After that, I will try create some componentes like TilemapRenderer, Sprite and whatever I need to create a simple 2D platformer.
+
+I have to be careful to not get crazy with the editor. I know I can't do like unity and having a Scene view and Game view, that's a nightmare to handle, mainly because of `static` and global state I would have to handle. [Domain Reloading](https://docs.unity3d.com/2022.3/Documentation/Manual/DomainReloading.html). I will still need to make some simple editor to auth my games, but first I will do harcoded scenes to test the system.

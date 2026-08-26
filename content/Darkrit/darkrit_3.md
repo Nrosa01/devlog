@@ -92,3 +92,15 @@ At the end, the entity is mainly just an ID to data that are now in other arrays
 Due to work, I'm a bit more busy, but I hope that I can get the physics integration within this week. This sprint has been purely working on the Entity system, I don't want to spend much more on it. Once I add physics, I'll start working on the core components.
 
 Until next time!
+
+# Day 16
+
+I did a basics physic integration, but it's a bit clunky. I added a physics world inside the ``EntityRegistry`` to make this easier to use. Still I want a immediate mode api that doesn't rely on sync steps.
+
+# Day 17
+
+Thanks to Godot source code, I could fix some of my issues and I also centered the sprite and the colliders and I gave them an offset property. I also implemented some attributes for the editor: HideInInspector, Button, ReadOnly
+
+This is taking form but it will take time. Given I'm making a platformer, I'm making the PhysicsBody be what CharacterBody is for Godot. Given my API is immediate mode, not calling `MoveAndSlide` means no movement will happen at all. I like this because even when PhysicsBody is specialized, it still works well for my use cases. Now, I've realized that using structs means I can't do derived components, but if I were using ECS I wouldn't be able neither, I guess I have to learn to live without inheritance.
+
+I stil have to expose masks and layers, expose collisions... I will also create a small fixed buffers of 3 handles per PhysicsBody. It's a bit of space, but some operations require many calls to the physics world, and every Move request clears the PhysicsWorld collision list, so I have to save it. I have been avoiding it and I will still try, but I'll eventually need to store collision pairs for more complex processing.

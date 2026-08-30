@@ -168,4 +168,23 @@ I just store the platform handle when ``isOnFloor`` is true and I add the delta 
 
 Also, I added the `[Header("Title")]` attribute so have nice separators in the inspector. Since I learnt how to make attributes I can't stop.
 
-Next day I want to expose layers in the inspector and think about how to implement triggers. I need that, a simple tween system, and particles before doing the game itself. 
+Next day I want to expose layers in the inspector and think about how to implement triggers. I need that, a simple tween system, and particles before doing the game itself.
+
+# Day 19 - Triggers
+
+I just added a trigger area. Due to the nature of the system, triggers are not physcis objects. This is because I need them to detect others even whey they don't move, it doesn't make sense to use a AABB Swept for this. I also added more attributes, this time it was this:
+
+```csharp
+    [OnEditorChange(nameof(ApplyCollisionFilter))]
+    [SerializeField] uint _layer = 1;
+```
+
+Given I can serialize auto properties but not properties, I had to make them explicit. This `_layer` field is only used in the editor, it does't exist in  release. It's just a proxy that allows me to change the inner body layer and mask during runtime inspection.
+
+# Day 20 - Camera
+
+I have a simple Gizmo system that didn't work when I used a camera in my scene. What I did for that was making Camera a static property of Core. Other scenes can build virtual cameras around it. This adds some coupling but given I'm making a specialized framework I guess I can get away with it.
+
+# Day 21 - Doubts
+
+I'm pretty happy with how my system works at a technical level. And even when I can tweak it, I'm not sure if it's the best for the game I want to make. Which makes sense, I kinda made this just because I wanted to build it, not because I needed it. The followings day I will be focusing on game design. I will think about what mechanics I need, how easy is implementing them in this system and how easy it would be if I code it differently. Probably the next week devlogs will be just "I'm thinking, I didn't do much" for a while.
